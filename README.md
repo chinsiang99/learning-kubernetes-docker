@@ -1,47 +1,60 @@
-# Docker and Kubernetes Fundamentals Hands-On labs
+# Docker CLI Cheat Sheet 
 
-Files for the **Docker and Kubernetes Fundamentals** Hands-On labs
+## Docker CLI Cheat Sheet - Management
 
-[Watch the course on FreeCodeCamp's YouTube channel.](https://www.youtube.com/watch?v=kTp5xUtcalw "Watch the course")
+| Command    | Description                         |
+|------------|-------------------------------------|
+| docker info  | Display system information  |
+| docker version  | Display the system's version  |
+| docker login  | Login to a Docker registry  |
 
-The setup instructions are listed in this file at the root of the repo: K8sFundamentals-SetupGuide-V3.pdf
+## Docker CLI Cheat Sheet - Running and stopping
+| Command    | Description                         |
+|------------|-------------------------------------|
+| docker pull [imageName]  | Pull an image from a registry  |
+| docker run [imageName]  | Run containers  |
+| docker run -d [imageName]  | Run in detached mode  |
+| docker start [containerName]  | Start stopped containers  |
+| docker ps  | List running containers  |
+| docker ps -a  | List running and stopped containers  |
+| docker stop [containerName]  | Stop containers  |
+| docker kill [containerName]  | Kill containers  |
+| docker image inspect [imageName]  | Get image info  |
 
-## About this course
+## Docker CLI Cheat Sheet - Limits
+| Command    | Description                         |
+|------------|-------------------------------------|
+| docker run --memory="256m" nginx  | Max memory  |
+| docker run --cpus=".5" nginx  | Max CPU  |
 
-- FREE COURSE
-- Duration: 6+ hours of video training.
-- 94 lectures.
-- 37 Hands-On labs with step-by-step instructions and source code.
-- Level: Introduction.
-- No pre-requisites – Ideal for beginners. No coding experience is required.
-- Target audience: Developers, DevOps, SREs and I.T. Pros.
-- Required material: a laptop/PC/Mac supporting virtualization and capable of running Docker Desktop.
-- Supported OS: Windows, MacOS and Linux (Ubuntu).
+## Docker CLI Cheat Sheet - Attach Shell
+| Command    | Description                         |
+|------------|-------------------------------------|
+| docker run -it nginx -- /bin/bash | Attach Shell  |
+| docker run -it -- microsoft/powershell:nanoserver  | Attach Powershell |
+| docker container exec -it [containername] -- bash  | Attach to a running container |
 
-### Docker
+## Docker CLI Cheat Sheet - Cleaning up
+| Command    | Description                         |
+|------------|-------------------------------------|
+| docker rm [containerName]  | Removes stopped containers  |
+| docker rm $(docker ps -a -q)  | Removes all stopped containers  |
+| docker images  | List images |
+| docker rmi [imageName] | Deletes the image |
+| docker system prune -a | Removes all images not in use by any containers |
 
-Learn how to containerize applications with the Docker CLI and Visual Studio Code. Push and pull container images on Docker Hub, a container registry. Learn how to create multi-container applications using Docker Compose.​
+## Docker CLI Cheat Sheet - Building
+| Command    | Description                         |
+|------------|-------------------------------------|
+| docker build -t [name:tag] .  | Builds an image using a Dockerfile located in the same folder |
+| docker build -t [name:tag] -f [fileName]  | Builds an image using a Dockerfile located in a different folder  |
+| docker tag [imageName] [name:tag]  | Tag an existing image |
 
-### Kubernetes
-
-Learn about the Kubernetes architecture and how it works. Run it locally and use the Kubernetes CLI and Visual Studio Code to run, debug and troubleshoot applications and services. Learn about pods and the different workloads available. Configure networking, storage and set liveness and readiness probes.
-
-### No Cloud account required
-
-This course does not require an account with a Cloud provider. Every lab runs locally using free software.
-
----
-
-## Description
-
-This technical course covers the core Docker and Kubernetes concepts and guides you to build containers. Developers, DevOps, SREs and I.T. Pros will learn how to use containers locally. You’ll experience several demos and hands-on exercises throughout the course as you learn how to build and deploy containers. No coding experience is required for the hands-on activities but you’ll use the terminal, command prompt and VS Code extensively.
-
-You’ll learn about microservices and their use cases. You’ll then learn about containers and Kubenernetes. You’ll learn how to deploy and manage microservices applications packaged in containers locally. This will provide you the essential foundation that you’ll need before heading to the cloud.
-
----
-
-## Meet your Instructor​
-
-Guy Barrette is a developer/trainer with more then 25 years of experience. He worked for many years as a developer, solutions architect, Microsoft Certified Trainer and now he shares his passion for containers and microservices teaching Docker and Kubernetes. He was awarded Microsoft Most Valuable Professional in the Azure category and passed the following certifications: Kubernetes and Cloud Native Associate, Certified Kubernetes Application Developer (CKAD), Terraform Certified Associate, AWS Cloud Practitioner, Google Cloud Associate Cloud Engineer, Azure Fundamentals, Azure Developer Associate and Azure Architect Design.
-
-https://guybarrette.com @GuyBarrette @guybarrette@techhub.social
+## Dockerfile - Node site
+FROM alpine # base image
+RUN apk add -update nodejs nodejs-npm # Install Node and NPM using the package manager
+COPY . /src
+WORKDIR /src
+RUN npm install
+EXPOSE 8080 # tells the container to listen on port 8080
+ENTRYPOINT ["node", "./app.js"] # What to run
