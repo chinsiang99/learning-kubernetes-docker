@@ -1,47 +1,56 @@
-# Docker and Kubernetes Fundamentals Hands-On labs
+# Kubernetes a.k.a K8s
+- Originated from Google
+- Donated to the Cloud Native Computing
+- leading container orchestration tool
+- Designed as a loosely coupled collection of components centered around deploying, maintaining and scaling workloads
+- vendor-neutral
+    - runs on all cloud providers
+- backed by large community
 
-Files for the **Docker and Kubernetes Fundamentals** Hands-On labs
+## What K8s can do
+- Service discovery and load balancing
+- Storage orchestration
+    - local or Cloud based
+- Automated rollouts and rollbacks
+- Self-healing
+- Secret and configuration management
 
-[Watch the course on FreeCodeCamp's YouTube channel.](https://www.youtube.com/watch?v=kTp5xUtcalw "Watch the course")
+## What K8s can't do?
+- Does not deploy source code
+- Does not build your application
+- Does not provide application-level services
 
-The setup instructions are listed in this file at the root of the repo: K8sFundamentals-SetupGuide-V3.pdf
+## Kubernetes Architecture
+![kubernetes-architecture](kubernetes-architecture.png)
 
-## About this course
+A container will run in a pod, a pod will run in a node, a node will run in a cluster
 
-- FREE COURSE
-- Duration: 6+ hours of video training.
-- 94 lectures.
-- 37 Hands-On labs with step-by-step instructions and source code.
-- Level: Introduction.
-- No pre-requisites – Ideal for beginners. No coding experience is required.
-- Target audience: Developers, DevOps, SREs and I.T. Pros.
-- Required material: a laptop/PC/Mac supporting virtualization and capable of running Docker Desktop.
-- Supported OS: Windows, MacOS and Linux (Ubuntu).
+![how-it-runs](how-it-runs.png)
 
-### Docker
+# Running Kubernetes locally
 
-Learn how to containerize applications with the Docker CLI and Visual Studio Code. Push and pull container images on Docker Hub, a container registry. Learn how to create multi-container applications using Docker Compose.​
+## Local K8s
+- Requires virtualization
+    - Docker Desktop
+    - MicroK8s
+    - Minikube
+- Runs over Docker Desktop
+    - Kind
+- Limited to 1 node
+    - Docker Desktop
+- Multiple nodes
+    - MicroK8s
+    - Kind
+    - Minikube
 
-### Kubernetes
+## Local K8s - Windows
+- Docker Desktop is currently the only way to run both Linux and Windows containers
+- Docker Desktop can run on Hyper-V or WSL2
 
-Learn about the Kubernetes architecture and how it works. Run it locally and use the Kubernetes CLI and Visual Studio Code to run, debug and troubleshoot applications and services. Learn about pods and the different workloads available. Configure networking, storage and set liveness and readiness probes.
+## Minikube
+- Does not require Docker Desktop
+- Installs on Linux, macOs and Windows
+- An Hypervisor like VirtualBox is required
 
-### No Cloud account required
-
-This course does not require an account with a Cloud provider. Every lab runs locally using free software.
-
----
-
-## Description
-
-This technical course covers the core Docker and Kubernetes concepts and guides you to build containers. Developers, DevOps, SREs and I.T. Pros will learn how to use containers locally. You’ll experience several demos and hands-on exercises throughout the course as you learn how to build and deploy containers. No coding experience is required for the hands-on activities but you’ll use the terminal, command prompt and VS Code extensively.
-
-You’ll learn about microservices and their use cases. You’ll then learn about containers and Kubenernetes. You’ll learn how to deploy and manage microservices applications packaged in containers locally. This will provide you the essential foundation that you’ll need before heading to the cloud.
-
----
-
-## Meet your Instructor​
-
-Guy Barrette is a developer/trainer with more then 25 years of experience. He worked for many years as a developer, solutions architect, Microsoft Certified Trainer and now he shares his passion for containers and microservices teaching Docker and Kubernetes. He was awarded Microsoft Most Valuable Professional in the Azure category and passed the following certifications: Kubernetes and Cloud Native Associate, Certified Kubernetes Application Developer (CKAD), Terraform Certified Associate, AWS Cloud Practitioner, Google Cloud Associate Cloud Engineer, Azure Fundamentals, Azure Developer Associate and Azure Architect Design.
-
-https://guybarrette.com @GuyBarrette @guybarrette@techhub.social
+## Minikube macOs
+- Install using brew
