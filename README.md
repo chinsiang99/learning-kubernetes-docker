@@ -1,47 +1,49 @@
-# Docker and Kubernetes Fundamentals Hands-On labs
+# Namespaces
+- Allow to group resources
+- K8s creates a default workspace
+- Objects in one namespace can access objects in a different one
+    - Ex: object.name.**prod**.svc.cluster.local
+- Deleting a namespace will delete all its child objects
+- You can define a namespace
+- You can specify the namespace when defining objects
+![namespace-1](namespace-1.png)
 
-Files for the **Docker and Kubernetes Fundamentals** Hands-On labs
+- You can also define network policy and resource as well
+![network-resouce](network-resouce.png)
 
-[Watch the course on FreeCodeCamp's YouTube channel.](https://www.youtube.com/watch?v=kTp5xUtcalw "Watch the course")
+## kubectl - Namespace Cheat Sheet
 
-The setup instructions are listed in this file at the root of the repo: K8sFundamentals-SetupGuide-V3.pdf
+| kubectl commands      | Description |
+|-----------|-----|
+| kubectl get namespace     | List all namespaces  |
+| kubectl get ns       | shortcut  |
+| kubectl config set-context --current --namespace=[namespaceName]   | Set the current context to use a namespace  |
+| kubectl create ns [namespaceName]       | Create a namespace  |
+| kubectl delete ns [namespaceName]       | Delete a namespace  |
+| kubectl get pods --all-namespaces       | List all pods in all namespace  |
 
-## About this course
 
-- FREE COURSE
-- Duration: 6+ hours of video training.
-- 94 lectures.
-- 37 Hands-On labs with step-by-step instructions and source code.
-- Level: Introduction.
-- No pre-requisites – Ideal for beginners. No coding experience is required.
-- Target audience: Developers, DevOps, SREs and I.T. Pros.
-- Required material: a laptop/PC/Mac supporting virtualization and capable of running Docker Desktop.
-- Supported OS: Windows, MacOS and Linux (Ubuntu).
 
-### Docker
-
-Learn how to containerize applications with the Docker CLI and Visual Studio Code. Push and pull container images on Docker Hub, a container registry. Learn how to create multi-container applications using Docker Compose.​
-
-### Kubernetes
-
-Learn about the Kubernetes architecture and how it works. Run it locally and use the Kubernetes CLI and Visual Studio Code to run, debug and troubleshoot applications and services. Learn about pods and the different workloads available. Configure networking, storage and set liveness and readiness probes.
-
-### No Cloud account required
-
-This course does not require an account with a Cloud provider. Every lab runs locally using free software.
-
+## example namespace.yaml file
+```
 ---
-
-## Description
-
-This technical course covers the core Docker and Kubernetes concepts and guides you to build containers. Developers, DevOps, SREs and I.T. Pros will learn how to use containers locally. You’ll experience several demos and hands-on exercises throughout the course as you learn how to build and deploy containers. No coding experience is required for the hands-on activities but you’ll use the terminal, command prompt and VS Code extensively.
-
-You’ll learn about microservices and their use cases. You’ll then learn about containers and Kubenernetes. You’ll learn how to deploy and manage microservices applications packaged in containers locally. This will provide you the essential foundation that you’ll need before heading to the cloud.
-
+apiVersion: v1
+kind: Namespace # specify the kind to be Namespace, so that we will know that we are creating or update namespaces
+metadata:
+  name: development # name of the namespace
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
 
-## Meet your Instructor​
+## if we want to apply this namespace yaml file, we can use kubectl apply -f 02.namespace.yaml
 
-Guy Barrette is a developer/trainer with more then 25 years of experience. He worked for many years as a developer, solutions architect, Microsoft Certified Trainer and now he shares his passion for containers and microservices teaching Docker and Kubernetes. He was awarded Microsoft Most Valuable Professional in the Azure category and passed the following certifications: Kubernetes and Cloud Native Associate, Certified Kubernetes Application Developer (CKAD), Terraform Certified Associate, AWS Cloud Practitioner, Google Cloud Associate Cloud Engineer, Azure Fundamentals, Azure Developer Associate and Azure Architect Design.
+# Purpose of the command:
+# 1. kubectl: This is the command-line interface (CLI) tool for interacting with Kubernetes clusters. It allows you to perform various operations such as managing resources, deploying applications, and querying cluster information.
+# 2. apply: This is a kubectl command that is used to create or update resources based on the configuration provided in the input file. If the resource does not exist, it will be created. If the resource already exists, it will be updated with the new configuration.
+# 3. -f: This flag specifies the filename or URL containing the Kubernetes resource configuration that you want to apply to the cluster.
+# 4. 02.namespace.yaml: This is the YAML file containing the configuration for the Kubernetes resource. In this specific case, the filename suggests that it defines a Kubernetes namespace.
 
-https://guybarrette.com @GuyBarrette @guybarrette@techhub.social
+## if we want to delete namespaces, we can use kubectl delete -f 02.namespace.yaml
+```
