@@ -1,29 +1,17 @@
-# Deployments
-- A deployment manage a single pod template
-- You create a deployment for each microservice
-    - front-end
-    - back-end
-    - image-processor
-    - creditcard-processor
-- create ReplicaSets in the background
-- dont interact with replicaSets directly
+# DaemonSet
+- ensures all nodes run an instance of a Pod
+- Scheduled by the scheduler controller and run by the daemon controller
+- As nodes are added to te cluster, pods are added to them
+- Typical uses
+    - running a cluster storage daemon
+    - rnning a logs collection daemon on every node
+    - running a node monitoring daemon on every node
 
-![deployments](deployments.png)
+![screenshot1](screenshot1.png)
 
-## Deployments definition in yaml file
-- replicas
-    - number of pod instances
-- revisionHistoryLimit
-    - number of previous iterations to keep
-- strategy
-    - rollingUpdate
-        - cycle through updating pods
-    - recreate
-        - all existing pods are killed before new ones are created
+![screenshot2](screenshot2.png)
 
-![deployment-definition](deployment-definition.png)
-
-![final-deployment-definition](final-deployment-definition.png)
 
 ## kubectl cheatsheet
-![deployment-cheatsheet](deployment-cheatsheet.png)
+
+![cheatsheet-daemonset](cheatsheet-daemonset.png)
