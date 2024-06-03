@@ -1,47 +1,82 @@
-# Docker and Kubernetes Fundamentals Hands-On labs
+# K8s Architecture - Nodes
 
-Files for the **Docker and Kubernetes Fundamentals** Hands-On labs
+- Nodes are physical or virtual machines
+- Master Node is also been called the control plane
+- Normally we do not run containers in the master node
 
-[Watch the course on FreeCodeCamp's YouTube channel.](https://www.youtube.com/watch?v=kTp5xUtcalw "Watch the course")
+## K8s Architecture - Master
+- etcd is a key value datastore for cluster state data
+- the api server is the only component communicating with etcd
+![master node](master-node.png)
 
-The setup instructions are listed in this file at the root of the repo: K8sFundamentals-SetupGuide-V3.pdf
+### kube-apiserver
+- REST interface
+- save state to the datastore (etcd)
+- all clients interact with it, never directly to the datastore
 
-## About this course
+### etcd
+- Act as the cluster datastore for storing state
+- key-value store
+- not a database or a datastore for application to use
+- The single source of truth
 
-- FREE COURSE
-- Duration: 6+ hours of video training.
-- 94 lectures.
-- 37 Hands-On labs with step-by-step instructions and source code.
-- Level: Introduction.
-- No pre-requisites – Ideal for beginners. No coding experience is required.
-- Target audience: Developers, DevOps, SREs and I.T. Pros.
-- Required material: a laptop/PC/Mac supporting virtualization and capable of running Docker Desktop.
-- Supported OS: Windows, MacOS and Linux (Ubuntu).
+### kube-control-manager
+- The controller of controllers!
+- it runs controllers
+    - node controller
+    - replication controller
+    - Endpoints controller
+    - Service account & Token controllers
 
-### Docker
+### cloud-control-manager
+- Interact with the cloud providers controller
+    - Node
+        - For checking the cloud provider to determine if the node has been deleted in the cloud after it stops responding
+    - Route
+        - For setting up routes in the underlying cloud infrastructure
+    - Service
+        - For creating, updating and deleting cloud provider load balancers
+    - Volume
+        - For creating, attaching, and mounting volumes, and interacting with the cloud provider to orchestrate volumes
 
-Learn how to containerize applications with the Docker CLI and Visual Studio Code. Push and pull container images on Docker Hub, a container registry. Learn how to create multi-container applications using Docker Compose.​
+### kube-scheduler
+- Watches newly created pods that have no node assigned, and selects a node for them to run on
+- Factors taken into acount for scheduling decisions include
+    - individual and collective resource requirements
+    - hardware/software/policy constraints
+    - affinity and anti-affinity specifications
+    - data locality
 
-### Kubernetes
+### Addons
+-DNS
+-Web UI (dashboard)
+- Cluster-level logging
+- Container resource monitoring
 
-Learn about the Kubernetes architecture and how it works. Run it locally and use the Kubernetes CLI and Visual Studio Code to run, debug and troubleshoot applications and services. Learn about pods and the different workloads available. Configure networking, storage and set liveness and readiness probes.
+## K8s Architecture - Nodes (Worker)
+![worker-node](worker-node.png)
 
-### No Cloud account required
+### kubelete
+- Manage the pods lifecycle
+- Ensure that the containers described in the Pod spec are running and healthy
 
-This course does not require an account with a Cloud provider. Every lab runs locally using free software.
+### kube-proxy
+- A network proxy
+- Manages network rules on nodes
 
----
+### Container runtime
+- K8s supports several container runtimes
+- Must implement the Kubernetes Container Runtime Interface
+    - Moby
+    - Containerd
+    - Cri-0
+    - Rkt
+    - Kata
+    - Virtlet
 
-## Description
-
-This technical course covers the core Docker and Kubernetes concepts and guides you to build containers. Developers, DevOps, SREs and I.T. Pros will learn how to use containers locally. You’ll experience several demos and hands-on exercises throughout the course as you learn how to build and deploy containers. No coding experience is required for the hands-on activities but you’ll use the terminal, command prompt and VS Code extensively.
-
-You’ll learn about microservices and their use cases. You’ll then learn about containers and Kubenernetes. You’ll learn how to deploy and manage microservices applications packaged in containers locally. This will provide you the essential foundation that you’ll need before heading to the cloud.
-
----
-
-## Meet your Instructor​
-
-Guy Barrette is a developer/trainer with more then 25 years of experience. He worked for many years as a developer, solutions architect, Microsoft Certified Trainer and now he shares his passion for containers and microservices teaching Docker and Kubernetes. He was awarded Microsoft Most Valuable Professional in the Azure category and passed the following certifications: Kubernetes and Cloud Native Associate, Certified Kubernetes Application Developer (CKAD), Terraform Certified Associate, AWS Cloud Practitioner, Google Cloud Associate Cloud Engineer, Azure Fundamentals, Azure Developer Associate and Azure Architect Design.
-
-https://guybarrette.com @GuyBarrette @guybarrette@techhub.social
+### Nodes Pool
+- A node pool is a group virtual machines, all with the same size
+- A cluster can have multiple node pools
+    - These pools can host different sizes of VMs
+    - Each pool can be autoscaled independently from the other pools
+- Docker Desktop is limited to 1 node
