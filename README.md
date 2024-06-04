@@ -64,3 +64,14 @@
 
 - nodeport cheatsheet
 ![nodeport-cheatsheet](nodeport-cheatsheet.png)
+
+## Load balancer (operates at the layer 4)
+- Layer 4 Load Balancing
+    - Operating at the transport level (TCP)
+    - Unable to make decisions baed on content
+    - Simple algorithms such as round-robin routing
+- Layer 7 load balancing (example: ingress)
+    - operates at the application level (HTTP, SMTP, etc)
+    - able to make descisions baed on the actual content of each message
+    - more intelligent load balancing decisions and content optimizations
+        - routing rules

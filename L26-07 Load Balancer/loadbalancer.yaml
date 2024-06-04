@@ -9,5 +9,5 @@ spec:
     env: prod
   ports:
   - protocol: TCP
-    port: 8080
+    port: 9889
     targetPort: 80
