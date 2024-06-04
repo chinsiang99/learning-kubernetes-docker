@@ -40,3 +40,27 @@
 - clusterIp cheat sheet
 ![cluster-cheatsheet](cluster-cheatsheet.png)
 
+
+## NodePort
+- Nodeport extends the ClusterIp service
+- visibility
+    - internal and external
+- NodePort
+    - The port the service is listening to externally
+    - statically defined or dynamically taken from a range between 30000 - 32767
+- Port
+    - The port the service is listening to internally
+- TargetPort
+    - Redirecting to the port the pods are listening to
+
+- nodeport definition
+![node-port](node-port.png)
+
+- nodePort
+    - statically defined, or dynamically taken from a range between 30000 - 32767
+- use any node ip + nodeport to access the service
+- nodeport accessing
+![nodeport-accessing](nodeport-accessing.png)
+
+- nodeport cheatsheet
+![nodeport-cheatsheet](nodeport-cheatsheet.png)
