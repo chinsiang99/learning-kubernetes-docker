@@ -24,6 +24,6 @@ spec:
         command:
         - cat
         - /tmp/healthy
-      initialDelaySeconds: 5
-      periodSeconds: 5
-      failureThreshold: 2
+      initialDelaySeconds: 5 # delay 5 seconds before probing
+      periodSeconds: 5 # probe every 5 seconds
+      failureThreshold: 2 # fail when two probe will fail
