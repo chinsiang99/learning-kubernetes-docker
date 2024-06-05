@@ -1,47 +1,77 @@
-# Docker and Kubernetes Fundamentals Hands-On labs
+# Storage & persistence
 
-Files for the **Docker and Kubernetes Fundamentals** Hands-On labs
+## Volumes
+- We need to store data outside the container in a volume
+- Volume let containers store data into external storage systems
+- Vendors create plugins for their storage systems according to the Container Storage Interface
+- Two ways to create storage
+    - Static and dynamic
 
-[Watch the course on FreeCodeCamp's YouTube channel.](https://www.youtube.com/watch?v=kTp5xUtcalw "Watch the course")
+## Persistent Volumes and Claims
+- Persisten Volumes
+    - represents a storage resource
+    - cluster wide
+    - Provisioned by an administrator
+- Persisten volume claim
+    - a one to one mapping to a persistent volume
+- one or more pods can use a persistent volume claim
+![persistent-volume-claim](persistent-volume-claim.png)
 
-The setup instructions are listed in this file at the root of the repo: K8sFundamentals-SetupGuide-V3.pdf
+### Reclaim Policies
+- Delete
+    - Delete the data upon deletion
+    - the default
+- Retain
+    - keeps te data upon pods deletion
 
-## About this course
+### Access Modes
+- ReadWriteMany
+    - The volume can be mounted as read-write by many pods
+- ReadOnlyMany
+    - The volume can be mounted read-only by many pods
+- ReadWriteOnce
+    - The volume can be mounted as read-write by a single pod
+    - The other pods are in read-only mode
+    - The one that has mounted the volume first will be able to write
+    
+![definition](definition.png)
 
-- FREE COURSE
-- Duration: 6+ hours of video training.
-- 94 lectures.
-- 37 Hands-On labs with step-by-step instructions and source code.
-- Level: Introduction.
-- No pre-requisites – Ideal for beginners. No coding experience is required.
-- Target audience: Developers, DevOps, SREs and I.T. Pros.
-- Required material: a laptop/PC/Mac supporting virtualization and capable of running Docker Desktop.
-- Supported OS: Windows, MacOS and Linux (Ubuntu).
+### Persistent Volume Claim
+![pvc](pvc.png)
 
-### Docker
+![pvc-2](pvc-2.png)
 
-Learn how to containerize applications with the Docker CLI and Visual Studio Code. Push and pull container images on Docker Hub, a container registry. Learn how to create multi-container applications using Docker Compose.​
+### persistent Volume States
+- Available
+    - a free resource that is not yet bound to a claim
+- bound
+    - the volume is bound to a claim
+- released
+    - the claim has been deleted, but the resource is not yet reclaimed by the cluster
+- failed
+    - the volume has failed its automatic reclamation
 
-### Kubernetes
+### cheatsheet - pvc & pv
+![cheatsheet](cheatsheet.png)
 
-Learn about the Kubernetes architecture and how it works. Run it locally and use the Kubernetes CLI and Visual Studio Code to run, debug and troubleshoot applications and services. Learn about pods and the different workloads available. Configure networking, storage and set liveness and readiness probes.
+## Storage & the static way
 
-### No Cloud account required
+## Storage & the dynamic way
 
-This course does not require an account with a Cloud provider. Every lab runs locally using free software.
 
----
+### StorageClass
+- Describes the "classes" of storage offered by the admin
+- An abstraction on top of an external storage resource
+- No need to set a capacity
+- Eliminates the need for the admin to pre-provision a persistent volume
 
-## Description
 
-This technical course covers the core Docker and Kubernetes concepts and guides you to build containers. Developers, DevOps, SREs and I.T. Pros will learn how to use containers locally. You’ll experience several demos and hands-on exercises throughout the course as you learn how to build and deploy containers. No coding experience is required for the hands-on activities but you’ll use the terminal, command prompt and VS Code extensively.
+storage class
+![storage-class](storage-class.png)
 
-You’ll learn about microservices and their use cases. You’ll then learn about containers and Kubenernetes. You’ll learn how to deploy and manage microservices applications packaged in containers locally. This will provide you the essential foundation that you’ll need before heading to the cloud.
+storage class vs persistent volume
+![storage-vs-pv](storage-vs-pv.png)
 
----
+### kubectl storage class cheat sheet
+![storage-cheatsheet](storage-cheatsheet.png)
 
-## Meet your Instructor​
-
-Guy Barrette is a developer/trainer with more then 25 years of experience. He worked for many years as a developer, solutions architect, Microsoft Certified Trainer and now he shares his passion for containers and microservices teaching Docker and Kubernetes. He was awarded Microsoft Most Valuable Professional in the Azure category and passed the following certifications: Kubernetes and Cloud Native Associate, Certified Kubernetes Application Developer (CKAD), Terraform Certified Associate, AWS Cloud Practitioner, Google Cloud Associate Cloud Engineer, Azure Fundamentals, Azure Developer Associate and Azure Architect Design.
-
-https://guybarrette.com @GuyBarrette @guybarrette@techhub.social
